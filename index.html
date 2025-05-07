@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrenos Exclusivos 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            margin: 0;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #4a8cff;
+            text-align: center;
+        }
+        h2 {
+            color: #4a8cff;
+            border-bottom: 2px solid #4a8cff;
+            padding-bottom: 5px;
+        }
+        .movie-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .movie-item {
+            background-color: #2a2a2a;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #4a8cff;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .movie-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            background-color: #333;
+        }
+        .movie-poster {
+            width: 50px;
+            height: 75px;
+            object-fit: cover;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+        .movie-info {
+            flex: 1;
+        }
+        .movie-title {
+            font-weight: bold;
+            margin-bottom: 3px;
+            color: #fff;
+        }
+        .movie-year {
+            font-size: 0.8em;
+            color: #aaa;
+        }
+        .pricing {
+            background-color: #1a2a3a;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #4a8cff;
+        }
+        .features {
+            background-color: #1a3a2a;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #4a8cff;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #4a8cff;
+        }
+        .update-info {
+            font-size: 12px;
+            color: #777;
+            text-align: right;
+            font-style: italic;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #aaa;
+        }
+        .saga-item {
+            background-color: #2a2a2a;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #4a8cff;
+            display: flex;
+            align-items: center;
+            cursor: default;
+        }
+        .saga-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            color: #4a8cff;
+        }
+        
+        /* Botones flotantes */
+        .floating-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+        .floating-btn {
+            background-color: #4a8cff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .floating-btn:hover {
+            background-color: #3a7cff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        .floating-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Modales */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            border: 1px solid #4a8cff;
+        }
+        .close-modal {
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            float: right;
+        }
+        .close-modal:hover {
+            background-color: #cc0000;
+        }
+        
+        /* Carrito de compras */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+        }
+        .cart-item-poster {
+            width: 40px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+        .cart-item-info {
+            flex: 1;
+        }
+        .cart-item-title {
+            font-weight: bold;
+        }
+        .cart-item-year {
+            font-size: 0.8em;
+            color: #aaa;
+        }
+        .remove-item {
+            color: #ff4444;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .cart-total {
+            font-weight: bold;
+            margin-top: 15px;
+            text-align: right;
+        }
+        .checkout-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .checkout-btn:hover {
+            background-color: #45a049;
+        }
+        .add-movie-btn {
+            background-color: #4a8cff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .add-movie-btn:hover {
+            background-color: #3a7cff;
+        }
+        
+        /* Buscador de películas */
+        .search-container {
+            margin-bottom: 15px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            background-color: #2a2a2a;
+            color: white;
+        }
+        .search-results {
+            margin-top: 15px;
+        }
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #2a2a2a;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .search-result-item:hover {
+            background-color: #333;
+        }
+        
+        /* Estilos para el reproductor de demostración */
+        .player-container {
+            background-color: #0a0a0a;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 100, 255, 0.5);
+            margin-bottom: 30px;
+        }
+        
+        .player-container video {
+            width: 100%;
+            display: block;
+        }
+        
+        .movie-info-demo {
+            padding: 20px;
+            background-color: #111;
+            border-top: 2px solid #0066ff;
+        }
+        
+        .movie-title-demo {
+            font-size: 24px;
+            margin: 0 0 10px;
+            color: #0066ff;
+        }
+        
+        .movie-meta-demo {
+            display: flex;
+            margin-bottom: 15px;
+            color: #aaa;
+            flex-wrap: wrap;
+        }
+        
+        .movie-meta-demo span {
+            margin-right: 15px;
+        }
+        
+        .movie-plot-demo {
+            line-height: 1.5;
+        }
+        
+        .poster-demo {
+            float: left;
+            margin-right: 20px;
+            width: 150px;
+            border-radius: 4px;
+        }
+        
+        .info-text-demo {
+            overflow: hidden;
+        }
+        
+        .player-wrapper {
+            position: relative;
+        }
+        
+        .loading-demo {
+            text-align: center;
+            padding: 50px;
+            color: #aaa;
+        }
+        
+        .error-demo {
+            color: #ff4444;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        /* Estilos para el carrusel de películas */
+        .trilogy-container {
+            margin-top: 30px;
+        }
+        
+        .trilogy-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #0066ff;
+            padding-left: 10px;
+        }
+        
+        .movies-carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: #0066ff #0a0a0a;
+            align-items: flex-start;
+        }
+        
+        .movies-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .movies-carousel::-webkit-scrollbar-track {
+            background: #0a0a0a;
+            border-radius: 10px;
+        }
+        
+        .movies-carousel::-webkit-scrollbar-thumb {
+            background-color: #0066ff;
+            border-radius: 10px;
+        }
+        
+        .movie-card {
+            width: 150px;
+            background: #111;
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .movie-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 100, 255, 0.7);
+        }
+        
+        .movie-card.active {
+            border: 2px solid #0066ff;
+            box-shadow: 0 0 15px rgba(0, 100, 255, 0.7);
+        }
+        
+        .movie-card-poster {
+            width: 100%;
+            height: 225px;
+            object-fit: cover;
+            background-color: #222;
+        }
+        
+        .movie-card-year {
+            padding: 10px;
+            font-size: 12px;
+            color: #aaa;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .poster-demo {
+                float: none;
+                display: block;
+                margin: 0 auto 15px;
+            }
+            
+            .movie-meta-demo span {
+                margin-bottom: 5px;
+                display: block;
+            }
+            
+            .movie-card {
+                width: 120px;
+            }
+            
+            .movie-card-poster {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Estreno Exclusivo 2025! 🎬🍿</h1>
+        <p class="highlight" style="text-align: center; font-size: 1.2em;">🔥 Las películas más esperadas ya están aquí 🔥</p>
+        
+        <div class="pricing">
+            <p>✅ Calidad HD | Entrega inmediata</p>
+            <p>✅ Solo $15 pesos por película</p>
+            <p>✅ 3 películas $35</p>
+            <p>✅ 5 películas $50</p>
+        </div>
+        
+        <p>📲 Te mandamos la película DIRECTAMENTE a tu WhatsApp en cuanto confirmes tu pedido.</p>
+        <p class="highlight">🚀 ¡Pide la tuya hoy!</p>
+        
+        <div class="features">
+            <p>Un solo archivo 📂</p>
+            <p>Tienes 3 opciones en uno solo:</p>
+            <p>✅ Reproducción directa en tu dispositivo.</p>
+            <p>✅ Transmisión a TV (sin complicaciones).</p>
+            <p>✅ Descarga ilimitada (guárdalas y míralas cuando quieras).</p>
+        </div>
+        
+        <h2>🎥 LOS MEJORES ESTRENOS DISPONIBLES PARA TI Y TU FAMILIA</h2>
+        <p class="highlight">ESTRENOS DEL 2025</p>
+        
+        <div class="movie-list" id="movies-container">
+            <div class="loading">Cargando películas...</div>
+        </div>
+        
+        <h2>🎥 SAGAS COMPLETAS</h2>
+        <div class="movie-list" id="sagas-container">
+            <div class="loading">Cargando sagas...</div>
+        </div>
+        
+        <p class="highlight">¡Y mucho más ESTRENOS 2025!🚀</p>
+        
+        <p class="update-info">Última actualización: <span id="update-date"></span></p>
+    </div>
+
+    <!-- Botones flotantes -->
+    <div class="floating-buttons">
+        <button class="floating-btn" id="demoBtn">DEMOSTRACIÓN</button>
+        <button class="floating-btn" id="cartBtn">SOLICITAR (0/5)</button>
+    </div>
+
+    <!-- Modal de demostración -->
+    <div class="modal" id="demoModal">
+        <div class="modal-content">
+            <div id="demoContent"></div>
+            <button class="close-modal" id="closeDemo">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal del carrito -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <h2>🛒 Carrito de Películas</h2>
+            <div id="cartItems"></div>
+            <div class="cart-total" id="cartTotal"></div>
+            <button class="checkout-btn" id="checkoutBtn">Finalizar Pedido por WhatsApp</button>
+            
+            <h3 style="margin-top: 20px;">Agregar otra película</h3>
+            <div class="search-container">
+                <input type="text" class="search-input" id="movieSearch" placeholder="Buscar película...">
+                <button class="add-movie-btn" id="searchBtn">Buscar</button>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+            
+            <button class="close-modal" id="closeCart">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuración de la API TMDb
+        const TMDB_API_KEY = 'e22418df765186e2208cf44bef9e3bd2';
+        const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+        const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/w92'; // Tamaño pequeño para miniaturas
+
+        // Datos de las películas (puedes actualizar este array fácilmente)
+        const movies = [
+            { title: "Thunderbolts", year: 2025 },
+            { title: "El Día que la Tierra Explotó", year: 2025 },
+            { title: "El contador 2", year: 2025 },
+            { title: "Una película de Minecraft", year: 2025 },
+            { title: "ESTRAGOS / HAVOC", year: 2025 },
+            { title: "LA CITA", year: 2025 },
+            { title: "La Última Cena", year: 2025 },
+            { title: "REY DE REYES", year: 2025 },
+            { title: "TIERRAS PERDIDAS", year: 2025 },
+            { title: "Peter Pan's pesadilla en el nunca jamás", year: 2025 },
+            { title: "Blanca Nieves", year: 2025 },
+            { title: "Contrataque", year: 2025 },
+            { title: "Estado Eléctrico", year: 2025 },
+            { title: "Mickey 17", year: 2025 },
+            { title: "Novocaine: Sin Dolor", year: 2025 },
+            { title: "Culpa Mía: Londres", year: 2025 },
+            { title: "Bridget Jones: Loca por él", year: 2025 },
+            { title: "El mono", year: 2025 },
+            { title: "Memorias De Un Caracol", year: 2025 },
+            { title: "Capitán América: un nuevo mundo", year: 2025 },
+            { title: "Dog Man", year: 2025 },
+            { title: "Compañera Perfecta", year: 2025 },
+            { title: "Mesa de regalos", year: 2025 },
+            { title: "No es mi culpa", year: 2025 },
+            { title: "El hombre lobo", year: 2025 },
+            { title: "Amenaza en el aire", year: 2025 },
+            { title: "Sirenas de las profundidades", year: 2025 },
+            { title: "El Abismo Secreto", year: 2025 },
+            { title: "pakton", year: 2025 },
+            { title: "AQUI", year: 2025 },
+            { title: "Ciudad de los demonios", year: 2025 },
+            { title: "Flow", year: 2025 },
+            { title: "CALENDARIO MORTAL", year: 2025 },
+            { title: "EMILIA PEREZ", year: 2025 },
+            { title: "Star Trek: Sección 31", year: 2025 },
+            { title: "Juego de ladrones: PANTERA", year: 2025 },
+            { title: "DE NUEVO EN ACCIÓN", year: 2025 },
+            { title: "Henry Danger La Película", year: 2025 },
+            { title: "El hombre que quiere vivir para siempre", year: 2025 }
+        ];
+
+        // Sagas más populares
+        const sagas = [
+            "Capitán América",
+            "Marvel Thunderbolts",
+            "Star Trek",
+            "Bridget Jones",
+            "Culpa Mía",
+            "El contador",
+            "Juego de ladrones",
+            "Harry Potter",
+            "El Señor de los Anillos",
+            "Fast & Furious",
+            "Jurassic Park",
+            "Avengers",
+            "Transformers",
+            "Piratas del Caribe",
+            "Mission Impossible"
+        ];
+
+        // Cache para almacenar los posters de películas
+        const moviePosterCache = {};
+        
+        // Carrito de compras
+        let cart = [];
+        
+        // Elementos del DOM para los modales
+        const demoModal = document.getElementById('demoModal');
+        const cartModal = document.getElementById('cartModal');
+        const demoContent = document.getElementById('demoContent');
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const cartBtn = document.getElementById('cartBtn');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const movieSearch = document.getElementById('movieSearch');
+        const searchBtn = document.getElementById('searchBtn');
+        const searchResults = document.getElementById('searchResults');
+
+        // Función para buscar una película en TMDb y obtener su poster
+        async function fetchMoviePoster(movieTitle, releaseYear) {
+            // Verificar si ya tenemos esta película en caché
+            if (moviePosterCache[movieTitle]) {
+                return moviePosterCache[movieTitle];
+            }
+
+            try {
+                const response = await fetch(`${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(movieTitle)}&year=${releaseYear}&language=es`);
+                const data = await response.json();
+                
+                if (data.results && data.results.length > 0) {
+                    const posterPath = data.results[0].poster_path;
+                    if (posterPath) {
+                        const posterUrl = `${TMDB_IMAGE_URL}${posterPath}`;
+                        // Almacenar en caché para futuras referencias
+                        moviePosterCache[movieTitle] = posterUrl;
+                        return posterUrl;
+                    }
+                }
+            } catch (error) {
+                console.error(`Error al buscar ${movieTitle}:`, error);
+            }
+            
+            // Si no encontramos la película, devolver una imagen por defecto
+            return 'https://via.placeholder.com/50x75?text=No+poster';
+        }
+
+        // Función para buscar el poster de una saga (usamos el primer término como búsqueda)
+        async function fetchSagaPoster(sagaTitle) {
+            const firstTerm = sagaTitle.split(':')[0].split(' ')[0];
+            try {
+                const response = await fetch(`${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(firstTerm)}&language=es`);
+                const data = await response.json();
+                
+                if (data.results && data.results.length > 0) {
+                    const posterPath = data.results[0].poster_path;
+                    if (posterPath) {
+                        return `${TMDB_IMAGE_URL}${posterPath}`;
+                    }
+                }
+            } catch (error) {
+                console.error(`Error al buscar saga ${sagaTitle}:`, error);
+            }
+            
+            return 'https://via.placeholder.com/50x75?text=Saga';
+        }
+
+        // Función para mostrar las películas con sus posters
+        async function displayMovies() {
+            const moviesContainer = document.getElementById('movies-container');
+            moviesContainer.innerHTML = '<div class="loading">Cargando películas...</div>';
+            
+            // Ordenar películas por año (en este caso todas son 2025, pero la estructura está lista para futuras actualizaciones)
+            const sortedMovies = [...movies].sort((a, b) => b.year - a.year);
+            
+            // Limpiar el contenedor
+            moviesContainer.innerHTML = '';
+            
+            // Mostrar cada película con su poster
+            for (const movie of sortedMovies) {
+                const posterUrl = await fetchMoviePoster(movie.title, movie.year);
+                
+                const movieElement = document.createElement('div');
+                movieElement.className = 'movie-item';
+                movieElement.innerHTML = `
+                    <img src="${posterUrl}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/50x75?text=No+poster'">
+                    <div class="movie-info">
+                        <div class="movie-title">${movie.title}</div>
+                        <div class="movie-year">${movie.year}</div>
+                    </div>
+                `;
+                
+                // Agregar evento para mostrar confirmación al hacer clic
+                movieElement.addEventListener('click', () => {
+                    if (confirm(`¿Deseas agregar "${movie.title}" (${movie.year}) a tu carrito?`)) {
+                        addToCart(movie.title, movie.year, posterUrl);
+                    }
+                });
+                
+                moviesContainer.appendChild(movieElement);
+            }
+        }
+
+        // Función para mostrar las sagas con sus posters
+        async function displaySagas() {
+            const sagasContainer = document.getElementById('sagas-container');
+            sagasContainer.innerHTML = '<div class="loading">Cargando sagas...</div>';
+            
+            // Limpiar el contenedor
+            sagasContainer.innerHTML = '';
+            
+            // Mostrar cada saga con su poster
+            for (const saga of sagas) {
+                const posterUrl = await fetchSagaPoster(saga);
+                
+                const sagaElement = document.createElement('div');
+                sagaElement.className = 'saga-item';
+                sagaElement.innerHTML = `
+                    <div class="saga-icon">📂</div>
+                    <img src="${posterUrl}" alt="${saga}" class="movie-poster" onerror="this.src='https://via.placeholder.com/50x75?text=Saga'">
+                    <div class="movie-info">
+                        <div class="movie-title">Saga ${saga}</div>
+                    </div>
+                `;
+                
+                // Eliminamos el cursor pointer y cualquier evento de click para las sagas
+                sagaElement.style.cursor = 'default';
+                
+                sagasContainer.appendChild(sagaElement);
+            }
+        }
+
+        // Función para mostrar la fecha de actualización
+        function displayUpdateDate() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('update-date').textContent = now.toLocaleDateString('es-ES', options);
+        }
+
+        // Función para actualizar todo el contenido
+        async function updateAllContent() {
+            await displayMovies();
+            await displaySagas();
+            displayUpdateDate();
+        }
+
+        // Función para agregar un elemento al carrito
+        function addToCart(title, year, posterUrl) {
+            if (cart.length >= 5) {
+                alert('Has alcanzado el límite de 5 películas en tu carrito.');
+                return;
+            }
+            
+            cart.push({ title, year, posterUrl });
+            updateCart();
+            
+            // Mostrar el carrito si está oculto
+            if (!cartModal.style.display || cartModal.style.display === 'none') {
+                cartModal.style.display = 'flex';
+            }
+        }
+
+        // Función para actualizar la visualización del carrito
+        function updateCart() {
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p>Tu carrito está vacío</p>';
+            } else {
+                cart.forEach((item, index) => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <img src="${item.posterUrl}" class="cart-item-poster" onerror="this.src='https://via.placeholder.com/40x60?text=No+img'">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.title}</div>
+                            <div class="cart-item-year">${item.year}</div>
+                        </div>
+                        <span class="remove-item" data-index="${index}">✕</span>
+                    `;
+                    cartItems.appendChild(cartItem);
+                });
+                
+                // Agregar eventos para eliminar items
+                document.querySelectorAll('.remove-item').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        cart.splice(index, 1);
+                        updateCart();
+                    });
+                });
+            }
+            
+            // Actualizar total y botón del carrito
+            let total = 15;
+            if (cart.length >= 3 && cart.length < 5) {
+                total = 35;
+            } else if (cart.length >= 5) {
+                total = 50;
+            } else {
+                total = cart.length * 15;
+            }
+            
+            cartTotal.innerHTML = `Total: $${total} pesos`;
+            cartBtn.textContent = `SOLICITAR (${cart.length})`;
+        }
+
+        // Función para buscar películas en TMDb
+        async function searchMovies(query) {
+            if (!query.trim()) return;
+            
+            searchResults.innerHTML = '<div class="loading">Buscando películas...</div>';
+            
+            try {
+                const response = await fetch(`${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=es`);
+                const data = await response.json();
+                
+                if (data.results && data.results.length > 0) {
+                    searchResults.innerHTML = '';
+                    
+                    // Limitar a 5 resultados para no saturar
+                    const results = data.results.slice(0, 5);
+                    
+                    for (const movie of results) {
+                        const posterUrl = movie.poster_path ? `${TMDB_IMAGE_URL}${movie.poster_path}` : 'https://via.placeholder.com/50x75?text=No+poster';
+                        const releaseYear = movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A';
+                        
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'search-result-item';
+                        resultItem.innerHTML = `
+                            <img src="${posterUrl}" style="width: 30px; height: 45px; margin-right: 10px; border-radius: 3px;" onerror="this.src='https://via.placeholder.com/30x45?text=No+poster'">
+                            <div>
+                                <div style="font-weight: bold;">${movie.title}</div>
+                                <div style="font-size: 0.8em; color: #aaa;">${releaseYear}</div>
+                            </div>
+                        `;
+                        
+                        resultItem.addEventListener('click', () => {
+                            if (confirm(`¿Deseas agregar "${movie.title}" (${releaseYear}) a tu carrito?`)) {
+                                addToCart(movie.title, releaseYear, posterUrl);
+                                movieSearch.value = '';
+                                searchResults.innerHTML = '';
+                            }
+                        });
+                        
+                        searchResults.appendChild(resultItem);
+                    }
+                } else {
+                    searchResults.innerHTML = '<p>No se encontraron resultados</p>';
+                }
+            } catch (error) {
+                console.error('Error al buscar películas:', error);
+                searchResults.innerHTML = '<p>Error al buscar películas</p>';
+            }
+        }
+
+        // Función para mostrar el reproductor de demostración
+        function showDemo() {
+            demoContent.innerHTML = `
+                <div class="player-container">
+                    <!-- VIDEO PLAYER -->
+                    <div class="player-wrapper">
+                        <video id="moviePlayer" controls>
+                            <source src="https://www.dropbox.com/scl/fi/6k4ojac30tc273urfm201/Mufasa-El-Rey-Le-n-2024.mp4?rlkey=rak6cp7h089vv0bt7or2k8ofx&st=w7m6qu4m&dl=1" type="video/mp4">
+                            Tu navegador no soporta el elemento de video.
+                        </video>
+                    </div>
+                    
+                    <!-- MOVIE INFO -->
+                    <div class="movie-info-demo" id="movieInfo">
+                        <img class="poster-demo" src="https://image.tmdb.org/t/p/w500/1NpS9D4kvNk4wKgISqX3b8ZgKz1.jpg" alt="Poster de Mufasa">
+                        <div class="info-text-demo">
+                            <h1 class="movie-title-demo">Mufasa: El Rey León (2024)</h1>
+                            <div class="movie-meta-demo">
+                                <span>2024</span>
+                                <span>Animación, Aventura, Drama</span>
+                                <span>⭐ 7.8/10</span>
+                                <span>128min</span>
+                            </div>
+                            <p class="movie-plot-demo">Una precuela de "El Rey León" que explora los orígenes de Mufasa, desde sus humildes comienzos hasta convertirse en el gran rey de la Tierra del Reino.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CARRUSEL PELICULAS  -->
+                <div class="trilogy-container">
+                    <h3 class="trilogy-title">PELICULASMX</h3>
+                    <div class="movies-carousel">
+                        <div class="movie-card active">
+                            <img class="movie-card-poster" src="https://image.tmdb.org/t/p/original/dmw74cWIEKaEgl5Dv3kUTcCob6D.jpg" alt="Mufasa">
+                            <div class="movie-card-year">2024</div>
+                        </div>
+                        <div class="movie-card">
+                            <img class="movie-card-poster" src="https://image.tmdb.org/t/p/original/vUNj55xlF0pSU5FU3yDHC6L5wVX.jpg" alt="Captain America">
+                            <div class="movie-card-year">2025</div>
+                        </div>
+                        <div class="movie-card">
+                            <img class="movie-card-poster" src="https://image.tmdb.org/t/p/original/mFjtmmh4RtK9tLv1aPnUsl6st3m.jpg" alt="Minecraft">
+                            <div class="movie-card-year">2025</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Configurar el reproductor de video
+            const videoPlayer = demoContent.querySelector('#moviePlayer');
+            if (videoPlayer) {
+                videoPlayer.load();
+            }
+            
+            // Configurar eventos para el carrusel
+            const movieCards = demoContent.querySelectorAll('.movie-card');
+            movieCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Quitar la clase active de todas las tarjetas
+                    movieCards.forEach(c => c.classList.remove('active'));
+                    
+                    // Agregar la clase active a la tarjeta clickeada
+                    this.classList.add('active');
+                    
+                    // Cambiar el video según la selección
+                    if (this.querySelector('.movie-card-year').textContent === '2024') {
+                        videoPlayer.src = 'https://www.dropbox.com/scl/fi/6k4ojac30tc273urfm201/Mufasa-El-Rey-Le-n-2024.mp4?rlkey=rak6cp7h089vv0bt7or2k8ofx&st=w7m6qu4m&dl=1';
+                        demoContent.querySelector('.poster-demo').src = 'https://image.tmdb.org/t/p/original/dmw74cWIEKaEgl5Dv3kUTcCob6D.jpg';
+                        demoContent.querySelector('.movie-title-demo').textContent = 'Mufasa: El rey león (2024)';
+                        demoContent.querySelector('.movie-plot-demo').textContent = 'Una precuela de "El Rey León (2024)" que explora los orígenes de Mufasa, desde sus humildes comienzos hasta convertirse en el gran rey de la Tierra del Reino.';
+                    } else if (this.querySelector('.movie-card-year').textContent === '2025') {
+                        if (this.querySelector('.movie-card-poster').alt.includes('Captain')) {
+                            videoPlayer.src = 'https://www.dropbox.com/scl/fi/zoqclegzubpbh0b9yw2ag/Capit-n-Am-rica-Un-Nuevo-Mundo-2025.mp4?rlkey=dfxs62d9oev2dkf03lwvxad3f&st=jhhg42lf&dl=1';
+                            demoContent.querySelector('.poster-demo').src = 'https://image.tmdb.org/t/p/original/vUNj55xlF0pSU5FU3yDHC6L5wVX.jpg';
+                            demoContent.querySelector('.movie-title-demo').textContent = 'Capitán América: Un Nuevo Mundo (2025)';
+                            demoContent.querySelector('.movie-plot-demo').textContent = 'Sam Wilson, el nuevo Capitán América, se enfrenta a un nuevo y poderoso enemigo mientras lucha por equilibrar sus responsabilidades como superhéroe y como hombre.';
+                        } else {
+                            videoPlayer.src = 'https://www.dropbox.com/scl/fi/cmdfzf53eyp22ukxy0pl0/Minecraft-2025.mp4?rlkey=ltf6arjbtkpy78ubiyao76iu0&st=l0wfsucx&dl=1';
+                            demoContent.querySelector('.poster-demo').src = 'https://image.tmdb.org/t/p/original/mFjtmmh4RtK9tLv1aPnUsl6st3m.jpg';
+                            demoContent.querySelector('.movie-title-demo').textContent = 'Minecraft (2025)';
+                            demoContent.querySelector('.movie-plot-demo').textContent = 'Una aventura épica basada en el popular videojuego, donde un grupo de héroes debe unirse para salvar su mundo de bloques de una terrible amenaza.';
+                        }
+                    }
+                    
+                    videoPlayer.load();
+                });
+            });
+            
+            demoModal.style.display = 'flex';
+        }
+
+        // Función para finalizar el pedido por WhatsApp
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío. Agrega al menos una película para continuar.');
+                return;
+            }
+            
+            const phoneNumber = '5567416073';
+            let message = '¡Hola! Quiero solicitar las siguientes películas:\n\n';
+            
+            cart.forEach(item => {
+                message += `- ${item.title} (${item.year})\n`;
+            });
+            
+            let total = 15;
+            if (cart.length >= 3 && cart.length < 5) {
+                total = 35;
+                message += `\nTotal: $35 pesos`;
+            } else if (cart.length >= 5) {
+                total = 50;
+                message += `\nTotal: $50 pesos`;
+            } else {
+                total = cart.length * 15;
+                message += `\nTotal: $${total} pesos (${cart.length} película${cart.length > 1 ? 's' : ''})`;
+            }
+            
+            message += '\n\nPor favor, envíenme la información para realizar el pago. ¡Gracias!';
+            
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank');
+            
+            // Limpiar el carrito después de enviar
+            cart = [];
+            updateCart();
+            cartModal.style.display = 'none';
+        }
+
+        // Inicializar la página
+        window.onload = function() {
+            updateAllContent();
+            
+            // Configurar eventos para los botones flotantes
+            document.getElementById('demoBtn').addEventListener('click', showDemo);
+            document.getElementById('cartBtn').addEventListener('click', () => {
+                cartModal.style.display = 'flex';
+            });
+            
+            // Configurar eventos para cerrar modales
+            document.getElementById('closeDemo').addEventListener('click', () => {
+                demoModal.style.display = 'none';
+            });
+            document.getElementById('closeCart').addEventListener('click', () => {
+                cartModal.style.display = 'none';
+            });
+            
+            // Cerrar modales al hacer clic fuera del contenido
+            demoModal.addEventListener('click', (e) => {
+                if (e.target === demoModal) {
+                    demoModal.style.display = 'none';
+                }
+            });
+            cartModal.addEventListener('click', (e) => {
+                if (e.target === cartModal) {
+                    cartModal.style.display = 'none';
+                }
+            });
+            
+            // Configurar botón de checkout
+            checkoutBtn.addEventListener('click', checkout);
+            
+            // Configurar buscador de películas
+            searchBtn.addEventListener('click', () => {
+                searchMovies(movieSearch.value);
+            });
+            
+            // Buscar al presionar Enter
+            movieSearch.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchMovies(movieSearch.value);
+                }
+            });
+            
+            // Inicializar carrito
+            updateCart();
+            
+            // Actualizar automáticamente cada 24 horas
+            setInterval(updateAllContent, 24 * 60 * 60 * 1000);
+        };
+
+        // Función para agregar una nueva película (puedes llamarla cuando tengas nuevos estrenos)
+        async function addNewMovie(title, year) {
+            movies.push({ title, year });
+            await updateAllContent();
+        }
+
+        // Función para agregar una nueva saga
+        async function addNewSaga(title) {
+            sagas.push(title);
+            await updateAllContent();
+        }
+    </script>
+</body>
+</html>
