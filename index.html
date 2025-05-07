@@ -97,20 +97,6 @@
             padding: 20px;
             color: #aaa;
         }
-        .saga-item {
-            background-color: #2a2a2a;
-            padding: 10px;
-            border-radius: 5px;
-            border-left: 4px solid #4a8cff;
-            display: flex;
-            align-items: center;
-            cursor: default;
-        }
-        .saga-icon {
-            font-size: 1.5em;
-            margin-right: 10px;
-            color: #4a8cff;
-        }
         
         /* Botones flotantes */
         .floating-buttons {
@@ -510,7 +496,7 @@
         const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
         const TMDB_IMAGE_URL = 'https://image.tmdb.org/t/p/w92'; // Tamaño pequeño para miniaturas
 
-        // Datos de las películas (puedes actualizar este array fácilmente)
+        // Datos de las películas
         const movies = [
             { title: "Thunderbolts", year: 2025 },
             { title: "El Día que la Tierra Explotó", year: 2025 },
@@ -553,23 +539,23 @@
             { title: "El hombre que quiere vivir para siempre", year: 2025 }
         ];
 
-        // Sagas más populares
+        // Sagas más populares con imágenes de respaldo
         const sagas = [
-            "Capitán América",
-            "Batman (El caballero oscuro)",
-            "Star Trek: La realidad alternativa",
-            "La saga Crepúsculo",
-            "Ice Age",
-            "The Accountant",
-            "Juego de ladrones",
-            "Harry Potter",
-            "El señor de los anillos",
-            "A todo gas",
-            "Parque Jurásico",
-            "Los Vengadores",
-            "Transformers",
-            "Piratas del Caribe",
-            "Mission Impossible"
+            { name: "X-Men - Colección", fallbackImg: "https://image.tmdb.org/t/p/w1280/fTx4vrq48SMd4D4r8Yxk34c070b.jpg" },
+            { name: "Batman colección", fallbackImg: "https://image.tmdb.org/t/p/w1280/eaC1Ky9fQbRTQOdeOp7KsrBs9zY.jpg" },
+            { name: "Star Trek: La realidad alternativa", fallbackImg: "https://image.tmdb.org/t/p/w92/6j3jdhEb4aTq1m1H5vYbpDlR3vJ.jpg" },
+            { name: "Crepúsculo colección", fallbackImg: "https://image.tmdb.org/t/p/w1280/g3xh0HrMOxyisn7lPToIikl0O6p.jpg" },
+            { name: "La era de hielo - Colección", fallbackImg: "https://image.tmdb.org/t/p/w1280/p9CeKvb8jbdoGYiceFA8Kt1XlAo.jpg" },
+            { name: "Como entrenar al tu dragón colección", fallbackImg: "https://image.tmdb.org/t/p/w1280/4tivUzSDcUDm3fbomwPxiEiztIM.jpg" },
+            { name: "Juego de ladrones colección", fallbackImg: "https://image.tmdb.org/t/p/w92/zPDY58lk0YIxr9qsnGV64PEnjkI.jpg" },
+            { name: "Harry Potter colección", fallbackImg: "https://image.tmdb.org/t/p/w92/wuMc08IPKEatf9rnMNXvIDxqP4W.jpg" },
+            { name: "El Señor de los Anillos - Colección", fallbackImg: "https://image.tmdb.org/t/p/original/p6QjtBmO6U105l44U0qMDSLxT0L.jpg" },
+            { name: "Rápido y furioso colección", fallbackImg: "https://image.tmdb.org/t/p/w1280/pCM9fXulC0fZ2sAqxOo9JlOxPmX.jpg" },
+            { name: "Parque Jurásico colección", fallbackImg: "https://image.tmdb.org/t/p/w92/oU7Oq2kFAAlGqbU4VoAE36g4hoI.jpg" },
+            { name: "Los Vengadores colección", fallbackImg: "https://image.tmdb.org/t/p/w92/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg" },
+            { name: "Transformers colección", fallbackImg: "https://image.tmdb.org/t/p/w92/6eehp9I54syN3x753XMqjKz8M3F.jpg" },
+            { name: "Piratas del Caribe colección", fallbackImg: "https://image.tmdb.org/t/p/w92/z8onk7LV9Mmw6zKz4hT6pzzvmvl.jpg" },
+            { name: "Mission Impossible colección", fallbackImg: "https://image.tmdb.org/t/p/w92/vwq5iboxYoaSpOmEQrhq9tHicq7.jpg" }
         ];
 
         // Cache para almacenar los posters de películas
@@ -618,24 +604,44 @@
             return 'https://via.placeholder.com/50x75?text=No+poster';
         }
 
-        // Función para buscar el poster de una saga (usamos el primer término como búsqueda)
-        async function fetchSagaPoster(sagaTitle) {
-            const firstTerm = sagaTitle.split(':')[0].split(' ')[0];
+        // Función para buscar el poster de una saga (versión mejorada)
+        async function fetchSagaPoster(sagaItem) {
+            // Primero intentamos con el nombre completo de la saga
             try {
-                const response = await fetch(`${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(firstTerm)}&language=es`);
+                const response = await fetch(`${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(sagaItem.name)}&language=es`);
                 const data = await response.json();
                 
                 if (data.results && data.results.length > 0) {
-                    const posterPath = data.results[0].poster_path;
-                    if (posterPath) {
-                        return `${TMDB_IMAGE_URL}${posterPath}`;
+                    // Buscamos el primer resultado que tenga poster
+                    const movieWithPoster = data.results.find(movie => movie.poster_path);
+                    if (movieWithPoster) {
+                        return `${TMDB_IMAGE_URL}${movieWithPoster.poster_path}`;
                     }
                 }
             } catch (error) {
-                console.error(`Error al buscar saga ${sagaTitle}:`, error);
+                console.error(`Error al buscar saga ${sagaItem.name}:`, error);
             }
             
-            return 'https://via.placeholder.com/50x75?text=Saga';
+            // Si no encontramos con el nombre completo, intentamos con el primer término
+            const firstTerm = sagaItem.name.split(':')[0].split('(')[0].trim();
+            if (firstTerm !== sagaItem.name) {
+                try {
+                    const response = await fetch(`${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(firstTerm)}&language=es`);
+                    const data = await response.json();
+                    
+                    if (data.results && data.results.length > 0) {
+                        const movieWithPoster = data.results.find(movie => movie.poster_path);
+                        if (movieWithPoster) {
+                            return `${TMDB_IMAGE_URL}${movieWithPoster.poster_path}`;
+                        }
+                    }
+                } catch (error) {
+                    console.error(`Error al buscar saga ${firstTerm}:`, error);
+                }
+            }
+            
+            // Si todo falla, usamos la imagen de fallback definida para la saga
+            return sagaItem.fallbackImg || 'https://via.placeholder.com/50x75?text=Saga';
         }
 
         // Función para mostrar las películas con sus posters
@@ -687,12 +693,11 @@
                 const posterUrl = await fetchSagaPoster(saga);
                 
                 const sagaElement = document.createElement('div');
-                sagaElement.className = 'saga-item';
+                sagaElement.className = 'movie-item'; // Usamos la misma clase que las películas para consistencia
                 sagaElement.innerHTML = `
-                    <div class="saga-icon">📂</div>
-                    <img src="${posterUrl}" alt="${saga}" class="movie-poster" onerror="this.src='https://via.placeholder.com/50x75?text=Saga'">
+                    <img src="${posterUrl}" alt="${saga.name}" class="movie-poster" onerror="this.src='${saga.fallbackImg || 'https://via.placeholder.com/50x75?text=Saga'}'">
                     <div class="movie-info">
-                        <div class="movie-title">Saga ${saga}</div>
+                        <div class="movie-title">Saga ${saga.name}</div>
                     </div>
                 `;
                 
@@ -775,7 +780,7 @@
             }
             
             cartTotal.innerHTML = `Total: $${total} pesos`;
-            cartBtn.textContent = `SOLICITAR (${cart.length})`;
+            cartBtn.textContent = `SOLICITAR (${cart.length}/5)`;
         }
 
         // Función para buscar películas en TMDb
@@ -1016,8 +1021,8 @@
         }
 
         // Función para agregar una nueva saga
-        async function addNewSaga(title) {
-            sagas.push(title);
+        async function addNewSaga(name, fallbackImg = 'https://via.placeholder.com/50x75?text=Saga') {
+            sagas.push({ name, fallbackImg });
             await updateAllContent();
         }
     </script>
